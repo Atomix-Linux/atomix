@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   bluebuild:
-    name: Build Custom Image
+    name: Build Atomix Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,7 +30,7 @@ jobs:
           - recipe.yml
     steps:
       # the build is fully handled by the reusable github action
-      - name: Build Custom Image
+      - name: Build Atomix Image
         uses: blue-build/github-action@v1.8
         with:
           recipe: ${{ matrix.recipe }}
