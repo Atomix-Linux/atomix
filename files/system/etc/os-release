@@ -6,5 +6,6 @@ ID_LIKE=fedora
 VERSION_ID=42
 VERSION_CODENAME=""
 LOGO=atomix-logo
+PRETTY_NAME="Atomix Linux 42 Plasma Edition"
 VARIANT="Plasma Edition"
 VARIANT_ID=plasma
