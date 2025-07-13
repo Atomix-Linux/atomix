@@ -96,7 +96,7 @@ if [ -z "${NO_COMPRESS}" ]; then
 	rm "${IMG_FILENAME}"  # opcjonalnie
 
 	# Tworzenie sumy SHA256 z połączonych części
-	cat ${IMG_FILENAME}.part.* | sha256sum > sha256sum.txt
+	sha256sum *.part.* > sha256sum.txt
 	cat sha256sum.txt
 
 	# Przeniesienie do OUTPUT_DIR
