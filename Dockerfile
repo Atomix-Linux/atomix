@@ -1,6 +1,6 @@
 FROM greyltc/archlinux-aur:latest
 LABEL contributor="shadowapex@gmail.com"
-COPY rootfs/etc/pacman.conf /etc/pacman.conf
+COPY fs/etc/pacman.conf /etc/pacman.conf
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
   # Cannot check space in chroot
   sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
