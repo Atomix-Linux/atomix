@@ -1,0 +1,208 @@
+#!/bin/bash
+
+export VERSION="1"
+export SYSTEM_DESC="Atomix Linux"
+export SYSTEM_NAME="atomix"
+export SIZE="12000MB"
+export ARCHIVE_DATE=$(date -d 'yesterday' +%Y/%m/%d)
+export WEBSITE="https://atomix-linux.github.io"
+export DOCUMENTATION_URL="https://github.com/Atomix-Linux/atomix/wiki"
+export BUG_REPORT_URL="https://github.com/Atomix-Linux/atomix/issues"
+
+export KERNEL_PACKAGE="linux"
+export KERNEL_PACKAGE_ORIGIN="global"
+
+export PACKAGES="\
+	accountsservice \
+	acpi_call-dkms \
+	acsccid \
+	alsa-firmware \
+	alsa-utils \
+	amd-ucode \
+	bash-completion \
+	broadcom-wl-dkms \
+	bzip2 \
+	cifs-utils \
+	cpupower \
+	diffutils \
+	dkms \
+	dmidecode \
+	dosbox \
+	efibootmgr \
+	ethtool \
+	evtest \
+	fakeroot \
+	ffmpeg \
+	file \
+	ffmpegthumbnailer \
+	firejail \
+	flatpak \
+	fmt \
+	fuse-zip \
+	fuse2 \
+	fwupd \
+	git \
+	plasma-meta \
+	kate \
+	gst-plugin-pipewire \
+	gvfs-smb \
+	gvfs-nfs \
+	gzip \
+	htop \
+	intel-gpu-tools \
+	intel-media-driver \
+	intel-ucode \
+	intel-undervolt \
+	less \
+	lib32-curl \
+	lib32-fontconfig \
+	lib32-freetype2 \
+	lib32-libgpg-error \
+	lib32-libnm \
+	lib32-libxinerama \
+	lib32-libxcrypt-compat \
+	lib32-mangohud \
+	lib32-openal \
+	lib32-pipewire \
+	lib32-sdl2 \
+	lib32-systemd \
+	lib32-vulkan-icd-loader \
+	libcurl-gnutls \
+	libidn11 \
+	libnfc \
+	libretro-beetle-pce-fast \
+	libretro-beetle-psx-hw \
+	libretro-desmume \
+	libretro-dolphin \
+	libretro-flycast \
+	libretro-genesis-plus-gx \
+	libretro-kronos \
+	libretro-mame \
+	libretro-mesen-s \
+	libretro-mgba \
+	libretro-mupen64plus-next \
+	libretro-nestopia \
+	libretro-picodrive \
+	libretro-ppsspp \
+	libretro-shaders-slang \
+	libretro-snes9x \
+	libxcrypt-compat \
+	libxss \
+	sddm \
+	linux-firmware \
+	liquidctl \
+	logrotate \
+	lrzip \
+	loupe \
+	lshw \
+	mangohud \
+	mesa-demos \
+	modemmanager \
+	nano \
+	nautilus \
+	networkmanager \
+	nfs-utils \
+	noto-fonts-emoji \
+	nss-mdns \
+	nvidia-open-dkms \
+	opencl-nvidia \
+	lib32-opencl-nvidia \
+	nvidia-utils \
+	lib32-nvidia-utils \
+	nvidia-prime \
+	openal \
+	openrazer-daemon \
+	openssh \
+	p7zip \
+	pipewire \
+	pipewire-alsa \
+	pipewire-jack \
+	pipewire-pulse \
+	podman \
+	pulsemixer \
+	python \
+	python-notify2 \
+	python-pyscard \
+	qtractor \
+	rsync \
+	smbclient \
+	sof-firmware \
+	sshfs \
+	sudo \
+	tar \
+	tree \
+	ttf-liberation \
+	unace \
+	unrar \
+	unzip \
+	usb_modeswitch \
+	usbutils \
+	vim \
+	vulkan-icd-loader \
+	wavpack \
+	wget \
+	which \
+	wireplumber \
+	wireless-regdb \
+	wqy-zenhei \
+	xdg-desktop-portal \
+	xdg-desktop-portal-gnome \
+	xdg-desktop-portal-wlr \
+	xdg-user-dirs-gtk \
+	xf86-video-amdgpu \
+	xorg-server \
+	xz \
+	zip \
+"
+
+export SERVICES="\
+	NetworkManager \
+	avahi-daemon \
+	bluetooth \
+	bluetooth-workaround \
+	fstrim.timer \
+	home-swapfile.swap \
+	sddm \
+	nvidia-powerd \
+	pcscd.socket \
+	sshd \
+	systemd-timesyncd \
+	swapfile \
+"
+
+export USER_SERVICES="\
+	pipewire \
+"
+
+export FILES_TO_DELETE="\
+	/boot/initramfs-linux-fallback.img \
+	/usr/share/SFML \
+	/usr/share/doc \
+	/usr/share/gtk-doc \
+	/usr/share/help \
+	/usr/share/man \
+"
+postinstallhook() {
+	# Add sudo permissions
+	sed -i '/%wheel ALL=(ALL:ALL) ALL/s/^# //g' /etc/sudoers
+
+	# download and add racing wheel udev rules
+	pushd /usr/lib/udev/rules.d
+	curl -L -O https://raw.githubusercontent.com/berarma/oversteer/master/data/udev/99-fanatec-wheel-perms.rules
+	curl -L -O https://raw.githubusercontent.com/berarma/oversteer/master/data/udev/99-logitech-wheel-perms.rules
+	curl -L -O https://raw.githubusercontent.com/berarma/oversteer/master/data/udev/99-thrustmaster-wheel-perms.rules
+	popd
+
+	# Remove build tools for slimmer image
+	rm /usr/share/libalpm/hooks/70-dkms-install.hook
+	rm /usr/share/libalpm/hooks/70-dkms-upgrade.hook
+	rm /usr/share/libalpm/hooks/71-dkms-remove.hook
+	pacman --noconfirm -Rnsdd make gcc dkms ${KERNEL_PACKAGE}-headers
+
+	# Disable SPDIF/IEC958 audio output to make it more likely the correct HDMI output will be selected by default
+	sed -e '/\[Mapping iec958/,+5 s/^/#/' -i '/usr/share/alsa-card-profile/mixer/profile-sets/default.conf'
+
+	# Replace wpctl with a wrapper to work around Steam resetting audio
+	mv /usr/bin/wpctl /usr/libexec/wpctl
+	mv /usr/bin/wpctl-wrapper /usr/bin/wpctl
+}
