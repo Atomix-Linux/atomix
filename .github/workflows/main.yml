@@ -27,14 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: set-pkgs
-        run: echo "matrix=$(ls -d pkgs/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+        run: echo "matrix=$(ls -d pkgs/*/ | jq -R -s -c 'split(\"\\n\")[:-1]')" >> $GITHUB_OUTPUT
         shell: bash
 
-
- pkgbuild:
+  pkgbuild:
     needs:
-     - build-docker-image
-     - list-pkgbuilds
+      - build-docker-image
+      - list-pkgbuilds
     name: Build package
     runs-on: ubuntu-latest
     strategy:
@@ -55,14 +54,13 @@ jobs:
       - name: Upload Package Archives
         uses: actions/upload-artifact@v4
         with:
-            name: Packages-${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
-            path: pkgs/*.pkg.tar*
-
+          name: Packages-${{ hashFiles(format('{0}/PKGBUILD', matrix.package)) }}
+          path: pkgs/*.pkg.tar*
 
   build:
     needs:
-     - build-docker-image
-     - pkgbuild
+      - build-docker-image
+      - pkgbuild
     name: Build Atomix Linux UNSTABLE image
     uses: ./.github/workflows/build-system-image.yml
     with:
