@@ -55,6 +55,11 @@ cp /etc/pacman.d/mirrorlist fs/etc/pacman.d/mirrorlist
 
 cp -R config fs/. ${BUILD_PATH}/
 
+
+mkdir ${BUILD_PATH}/local_pkgs
+cp -rv pkgs/*.pkg.tar* ${BUILD_PATH}/local_pkgs
+
+
 # TODO - Other packages (AUR, Local)
 
 # Chroot system

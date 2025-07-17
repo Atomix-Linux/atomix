@@ -1,0 +1,30 @@
+# Maintainer: Mikołaj Ziółkowski <mikolajziolkowski504@gmail.com>
+
+pkgname=gamescope-session-steam
+_destname1="/usr"
+_destname2="/etc"
+pkgver=2.g32815c9  # tymczasowe, zostanie nadpisane przez pkgver()
+pkgrel=1
+pkgdesc="Gamescope Steam Session"
+arch=('any')
+url="https://github.com/Atomix-Linux"
+license=('MIT')
+makedepends=('git')
+depends=()
+provides=("${pkgname}")
+options=(!strip !emptydirs)
+source=("${pkgname}::git+${url}/${pkgname}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${pkgname}"
+  echo "$(git rev-list --count HEAD).g$(git rev-parse --short HEAD)"
+}
+
+package() {
+  install -dm755 "${pkgdir}${_destname1}"
+  cp -r "${srcdir}/${pkgname}${_destname1}"/* "${pkgdir}${_destname1}"
+
+  install -dm755 "${pkgdir}${_destname2}"
+  cp -r "${srcdir}/${pkgname}${_destname2}"/* "${pkgdir}${_destname2}"
+}

@@ -1,0 +1,26 @@
+# Maintainer: Mikołaj Ziółkowski <mikolajziolkowski504@gmail.com>
+
+pkgname=gamescope-session
+_destname1="/usr"
+pkgver=2.g3992dac  # tymczasowe, zostanie nadpisane przez pkgver()
+pkgrel=1
+pkgdesc="Scripts to launch Gamescope Sessions"
+arch=('any')
+url="https://github.com/Atomix-Linux"
+license=('MIT')
+makedepends=('git')
+depends=()
+provides=("${pkgname}")
+options=(!strip !emptydirs)
+source=("${pkgname}::git+${url}/${pkgname}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${pkgname}"
+  echo "$(git rev-list --count HEAD).g$(git rev-parse --short HEAD)"
+}
+
+package() {
+  install -dm755 "${pkgdir}${_destname1}"
+  cp -r "${srcdir}/${pkgname}${_destname1}"/* "${pkgdir}${_destname1}"
+}

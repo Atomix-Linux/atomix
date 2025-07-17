@@ -30,6 +30,9 @@ else
 	pacman --noconfirm -S "${KERNEL_PACKAGE}" "${KERNEL_PACKAGE}-headers"
 fi
 
+pacman --noconfirm -U --overwrite '*' /local_pkgs/*
+rm -rf /var/cache/pacman/pkg
+
 pacman --noconfirm -Rdd jack2 || true
 
 pacman --noconfirm -S --overwrite '*' --disable-download-timeout ${PACKAGES}
