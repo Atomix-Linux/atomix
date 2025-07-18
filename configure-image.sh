@@ -117,6 +117,7 @@ fi
 rm -rf \
 /home \
 /var \
+/local_pkgs \
 
 rm -rf ${FILES_TO_DELETE}
 
