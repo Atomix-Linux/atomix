@@ -72,10 +72,10 @@ Subsystem	sftp	/usr/lib/ssh/sftp-server
 " > /etc/ssh/sshd_config
 
 echo "
-LABEL=zenkai_root /var       btrfs     defaults,subvolid=256,rw,noatime,nodatacow,nofail                                                                                                                                                                                                                      0   0
-LABEL=zenkai_root /home      btrfs     defaults,subvolid=257,rw,noatime,nodatacow,nofail                                                                                                                                                                                                                      0   0
-LABEL=zenkai_root /zenkai_root btrfs     defaults,subvolid=5,rw,noatime,nodatacow,x-initrd.mount                                                                                                                                                                                                                0   2
-overlay         /etc       overlay   defaults,x-systemd.requires-mounts-for=/zenkai_root,x-systemd.requires-mounts-for=/sysroot/zenkai_root,x-systemd.rw-only,lowerdir=/sysroot/etc,upperdir=/sysroot/zenkai_root/etc,workdir=/sysroot/zenkai_root/.etc,index=off,metacopy=off,comment=etcoverlay,x-initrd.mount    0   0
+LABEL=aldm_root /var       btrfs     defaults,subvolid=256,rw,noatime,nodatacow,nofail                                                                                                                                                                                                                      0   0
+LABEL=aldm_root /home      btrfs     defaults,subvolid=257,rw,noatime,nodatacow,nofail                                                                                                                                                                                                                      0   0
+LABEL=aldm_root /aldm_root btrfs     defaults,subvolid=5,rw,noatime,nodatacow,x-initrd.mount                                                                                                                                                                                                                0   2
+overlay         /etc       overlay   defaults,x-systemd.requires-mounts-for=/aldm_root,x-systemd.requires-mounts-for=/sysroot/aldm_root,x-systemd.rw-only,lowerdir=/sysroot/etc,upperdir=/sysroot/aldm_root/etc,workdir=/sysroot/aldm_root/.etc,index=off,metacopy=off,comment=etcoverlay,x-initrd.mount    0   0
 " > /etc/fstab
 
 echo "
@@ -124,5 +124,5 @@ rm -rf ${FILES_TO_DELETE}
 # create necessary directories
 mkdir -p /home
 mkdir -p /var
-mkdir -p /zenkai_root
+mkdir -p /aldm_root
 mkdir -p /efi
