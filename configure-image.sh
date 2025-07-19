@@ -55,6 +55,13 @@ systemctl --global enable ${USER_SERVICES}
 # disable root login
 passwd --lock root
 
+# create user
+groupadd -r autologin
+useradd -m ${USERNAME} -G autologin,wheel,plugdev
+echo "${USERNAME}:${USERNAME}" | chpasswd
+
+echo "${SYSTEM_NAME}" > /etc/hostname
+
 # set the default editor, so visudo works
 echo "export EDITOR=nano" >> /etc/bash.bashrc
 

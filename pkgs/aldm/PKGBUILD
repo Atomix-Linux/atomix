@@ -1,0 +1,33 @@
+# Maintainer: Mikołaj Ziółkowski <mikolajziolkowski504@gmail.com>
+
+pkgname=aldm
+pkgver=3.gfbe014b  # tymczasowe, zostanie nadpisane przez pkgver()
+pkgrel=1
+pkgdesc="Atomix Linux Deployments Manager"
+arch=('any')
+url="https://github.com/Atomix-Linux"
+license=('MIT')
+makedepends=('git')
+depends=('libnewt' 'jq' 'btrfs-progs')
+provides=("${pkgname}")
+options=(!strip !emptydirs)
+source=("${pkgname}::git+${url}/${pkgname}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${pkgname}"
+  echo "$(git rev-list --count HEAD).g$(git rev-parse --short HEAD)"
+}
+
+package() {
+  mkdir -p "$pkgdir/usr/bin"
+  mkdir -p "$pkgdir/etc/systemd/system"
+  install -m 755 "$srcdir/aldm/aldm-bootstrap" "$pkgdir/usr/bin"
+  install -m 755 "$srcdir/aldm/aldm-deploy" "$pkgdir/usr/bin"
+  install -m 755 "$srcdir/aldm/__aldm-deploy" "$pkgdir/usr/bin"
+  install -m 755 "$srcdir/aldm/aldm-release" "$pkgdir/usr/bin"
+  install -m 755 "$srcdir/aldm/aldm-unlock" "$pkgdir/usr/bin"
+  install -m 755 "$srcdir/aldm/aldm-chroot" "$pkgdir/usr/bin"
+  install -m 644 "$srcdir/aldm/aldm-autoupdate.service" "$pkgdir/etc/systemd/system"
+  install -m 644 "$srcdir/aldm/aldm-autoupdate.timer" "$pkgdir/etc/systemd/system"
+}

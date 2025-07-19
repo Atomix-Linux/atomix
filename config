@@ -3,6 +3,7 @@
 export VERSION="1"
 export SYSTEM_DESC="Atomix Linux"
 export SYSTEM_NAME="atomix"
+export USERNAME="atomix"
 export SIZE="12000MB"
 export ARCHIVE_DATE=$(date -d 'yesterday' +%Y/%m/%d)
 export WEBSITE="https://atomix-linux.github.io"
@@ -168,6 +169,7 @@ export SERVICES="\
 	sshd \
 	systemd-timesyncd \
 	swapfile \
+	atomix-post-install \
 "
 
 export USER_SERVICES="\

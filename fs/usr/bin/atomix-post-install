@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+USERNAME="atomix"
+
+cp -r /etc/skel/. /home/${USERNAME}
+chown ${USERNAME}:${USERNAME} /home/${USERNAME}
+
+systemctl disable atomix-post-install

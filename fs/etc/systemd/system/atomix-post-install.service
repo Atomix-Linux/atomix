@@ -1,0 +1,11 @@
+[Unit]
+Description=Atomix Linux PostInstall
+After=multi-user.target
+
+[Service]
+ExecStart=atomix-post-install
+Type=oneshot
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
