@@ -18,6 +18,9 @@ sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf
 # update package databases
 pacman --noconfirm -Syy
 
+# Install terminus-font
+pacman --noconfirm -S terminus-font
+
 # Disable check and debug for makepkg on the final image
 sed -i '/BUILDENV/s/ check/ !check/g' /etc/makepkg.conf
 sed -i '/OPTIONS/s/ debug/ !debug/g' /etc/makepkg.conf
