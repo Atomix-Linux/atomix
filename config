@@ -26,6 +26,7 @@ export PACKAGES="\
 	cifs-utils \
 	cpupower \
 	diffutils \
+	dolphin \
 	dkms \
 	dmidecode \
 	dosbox \
@@ -45,6 +46,7 @@ export PACKAGES="\
 	git \
 	plasma-meta \
 	kate \
+	konsole \
 	gst-plugin-pipewire \
 	gvfs-smb \
 	gvfs-nfs \
@@ -100,7 +102,6 @@ export PACKAGES="\
 	mesa-demos \
 	modemmanager \
 	nano \
-	nautilus \
 	networkmanager \
 	nfs-utils \
 	noto-fonts-emoji \
