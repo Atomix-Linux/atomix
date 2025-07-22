@@ -130,6 +130,7 @@ export PACKAGES="\
 	smbclient \
 	sof-firmware \
 	sshfs \
+	steam \
 	sudo \
 	tar \
 	tree \
