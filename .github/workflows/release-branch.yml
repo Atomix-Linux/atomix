@@ -26,6 +26,16 @@ jobs:
           sed -i 's@ARCHIVE_DATE.*@ARCHIVE_DATE=\"'"$DATE"'\"@g' config
           git add config
           git commit --message "Fixate ARCHIVE_DATE"
+      - name: Set AUR-submodules
+        run: |
+          source ./config
+          pushd aur-pkgs
+          for package in ${AUR_PACKAGES}; do
+            git submodule add https://aur.archlinux.org/${package}.git
+          done
+          popd
+          git add .
+          git commit --message "Pin AUR-packages for ${{ steps.set-version.outputs.version }}"
       - name: Push new branch
         run: git push origin stable-${{ steps.set-version.outputs.version }}
       - name: Increment version on master

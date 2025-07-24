@@ -157,6 +157,17 @@ export PACKAGES="\
 	xz \
 	zip \
 "
+export AUR_PACKAGES="\
+	downgrade \
+	pikaur \
+	powerstation-bin \
+	nintendo-udev \
+	linux-firmware-valve \
+	steam-powerbuttond-git \
+	steam-removable-media-git \
+	inputplumber-bin \
+	oversteer \
+"
 
 export SERVICES="\
 	NetworkManager \
@@ -165,9 +176,13 @@ export SERVICES="\
 	bluetooth-workaround \
 	fstrim.timer \
 	home-swapfile.swap \
+	inputplumber \
+	inputplumber-suspend \
 	sddm \
 	nvidia-powerd \
 	pcscd.socket \
+	powerstation \
+	steam-powerbuttond \
 	sshd \
 	systemd-timesyncd \
 	swapfile \

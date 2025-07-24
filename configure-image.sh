@@ -41,6 +41,9 @@ pacman --noconfirm -Rdd jack2 || true
 pacman --noconfirm -S --overwrite '*' --disable-download-timeout ${PACKAGES}
 rm -rf /var/cache/pacman/pkg
 
+pacman --noconfirm -U --overwrite '*' /aur_pkgs/*
+rm -rf /var/cache/pacman/pkg
+
 # Install the new iptables
 # See https://gitlab.archlinux.org/archlinux/packaging/packages/iptables/-/issues/1
 # Since base package group adds iptables by default
@@ -103,6 +106,7 @@ PRETTY_NAME=${SYSTEM_DESC} ${DISPLAY_VERSION}
 ID=${SYSTEM_NAME}
 ID_LIKE=arch
 ANSI_COLOR=\"1;33\"
+LOGO=atomix-logo
 HOME_URL=${WEBSITE}
 DOCUMENTATION_URL=${DOCUMENTATION_URL}
 BUG_REPORT_URL=${BUG_REPORT_URL}" > /usr/lib/os-release

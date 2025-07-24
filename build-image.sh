@@ -57,6 +57,9 @@ cp -R config fs/. ${BUILD_PATH}/
 
 
 mkdir ${BUILD_PATH}/local_pkgs
+mkdir ${BUILD_PATH}/aur_pkgs
+
+cp -rv aur-pkgs/*.pkg.tar* ${BUILD_PATH}/aur_pkgs
 cp -rv pkgs/*.pkg.tar* ${BUILD_PATH}/local_pkgs
 
 
