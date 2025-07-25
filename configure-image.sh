@@ -44,6 +44,9 @@ rm -rf /var/cache/pacman/pkg
 pacman --noconfirm -U --overwrite '*' /aur_pkgs/*
 rm -rf /var/cache/pacman/pkg
 
+pacman --noconfirm -U --overwrite '*' /override_pkgs/*
+rm -rf /var/cache/pacman/pkg
+
 # Install the new iptables
 # See https://gitlab.archlinux.org/archlinux/packaging/packages/iptables/-/issues/1
 # Since base package group adds iptables by default
@@ -132,6 +135,8 @@ rm -rf \
 /home \
 /var \
 /local_pkgs \
+/aur_pkgs \
+/override_pkgs \
 
 rm -rf ${FILES_TO_DELETE}
 

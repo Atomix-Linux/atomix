@@ -58,12 +58,14 @@ cp -R config fs/. ${BUILD_PATH}/
 
 mkdir ${BUILD_PATH}/local_pkgs
 mkdir ${BUILD_PATH}/aur_pkgs
+mkdir ${BUILD_PATH}/override_pkgs
 
 cp -rv aur-pkgs/*.pkg.tar* ${BUILD_PATH}/aur_pkgs
 cp -rv pkgs/*.pkg.tar* ${BUILD_PATH}/local_pkgs
 
-
-# TODO - Other packages (AUR, Local)
+if [ -n "${PACKAGE_OVERRIDES}" ]; then
+	wget --directory-prefix=${BUILD_PATH}/override_pkgs ${PACKAGE_OVERRIDES}
+fi
 
 # Chroot system
 mount --bind ${BUILD_PATH} ${BUILD_PATH}
